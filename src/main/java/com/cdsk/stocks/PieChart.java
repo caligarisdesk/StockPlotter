@@ -20,17 +20,14 @@ public class PieChart {
 
     private static final long serialVersionUID = 1L;
     BufferedImage image;
-    ChartPanel chartPanel;
 
     public PieChart(String chartTitle) {
         // This will create the dataset
         PieDataset dataset = createDataset();
         // based on the dataset we create the chart
         JFreeChart chart = createChart(dataset, chartTitle);
-        // we put the chart into a panel
-        chartPanel = new ChartPanel(chart);
-        // default size
-        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+        image = chart.createBufferedImage(500,500);
+
     }
 
     /**
@@ -50,7 +47,7 @@ public class PieChart {
     private JFreeChart createChart(PieDataset dataset, String title) {
 
         JFreeChart chart = ChartFactory.createPieChart3D(
-                title,                                  // chart title
+                title,                  // chart title
                 dataset,                // data
                 true,                   // include legend
                 true,
@@ -65,16 +62,8 @@ public class PieChart {
 
     }
 
-    private BufferedImage createImage(JPanel panel) throws IOException{
-        int w = panel.getWidth();
-        int h = panel.getHeight();
-        BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = bi.createGraphics();
-        panel.paint(g);
-        return bi;
-    }
 
     public void write(File file) throws IOException{
-        ImageIO.write(this.createImage(chartPanel), "png", file);
+        ImageIO.write(this.image, "png", file);
     }
 }
