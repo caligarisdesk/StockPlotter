@@ -1,8 +1,11 @@
 package com.cdsk.stocks;
 
-import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.util.stream.IntStream;
+
+import org.jcodec.api.awt.SequenceEncoder;
+import org.jcodec.common.model.Picture;
 
 /**
  * Created by johnmcnamara on 11/30/16.
@@ -10,13 +13,22 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) {
-        PieChart demo = new PieChart("Which operating system are you using?");
-        File f = new File("thing.png");
         try {
-            demo.write(f);
+            SequenceEncoder enc = new SequenceEncoder(new File("filename.mp4"));
+            for(int i = 0; i < 100; i++) {
+                DayScatter demo = new DayScatter("Which operating system are you using?");
+                try {
+                    enc.encodeImage(demo.createBufferedImage());
+                } catch (IOException ioe) {
+
+                }
+            }
+            enc.finish();
         } catch (IOException ioe) {
 
         }
+
+
     }
 
 }
